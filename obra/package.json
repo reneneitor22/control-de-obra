@@ -1,0 +1,17 @@
+{
+  "name": "obra",
+  "version": "1.0.0",
+  "description": "Control de Obra. PHP + PDO, SQLite dev / MySQL prod, server-rendered. CSS de Tailwind precompilado estático (ver build:css).",
+  "private": true,
+  "scripts": {
+    "build:css": "tailwindcss -i build/tw-input.css -o public/css/app.css --content \"./public/**/*.php\" --content \"./lib/**/*.php\" --minify"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "UNLICENSED",
+  "type": "commonjs",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.2",
+    "tailwindcss": "^4.3.2"
+  }
+}

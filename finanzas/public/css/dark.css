@@ -1,0 +1,373 @@
+/* Todo el tema queda dentro de @media screen: al imprimir o exportar
+   (window.print, Guardar como PDF) el navegador ignora este bloque entero
+   y el documento sale como si el modo noche nunca hubiera existido. */
+@media screen {
+/* ===================== Control de Obra · Modo noche =====================
+   Todo el tema se define con variables --rd-*. Eso permite que los documentos
+   exportables (.mb-doc: los bloques #*-capture que html2canvas convierte en
+   PDF/imagen) vuelvan a ser hoja blanca con solo redefinir las variables en
+   ese subárbol — si no, saldrían PDFs oscuros.
+
+   Escala de elevación: bg (página) < surface (tarjeta) < surface2 < surface3.
+   La barra superior tiene tono y borde propios para no fundirse con la página.
+*/
+html[data-theme="dark"]{
+  --rd-bg:#0c0e12;
+  --rd-surface:#171b22; --rd-surface2:#1f242d; --rd-surface3:#272d38;
+  --rd-header:#1a1f28;
+  --rd-border:#343c4a; --rd-border-soft:#262c36; --rd-border-strong:#414a5a;
+  --rd-text:#f2f4f7; --rd-text-mid:#ccd2db; --rd-text-dim:#a4acba; --rd-text-faint:#959dac;
+  --rd-btn:#2b323e; --rd-btn2:#242a34; --rd-btn-hover:#39414f;
+
+  /* acentos (texto) */
+  --rd-ok:#86efac; --rd-bad:#fca5a5; --rd-warn:#fbbf24; --rd-warn-2:#fcd34d;
+  --rd-info:#93c5fd; --rd-sky:#7dd3fc; --rd-teal:#5eead4; --rd-emerald:#6ee7b7;
+  --rd-orange:#fdba74; --rd-violet:#c4b5fd;
+  /* fondos tenues de aviso */
+  --rd-tint-amber:#3b2c11; --rd-tint-amber-h:#4a3715; --rd-tint-red:#3b1b1d; --rd-tint-red-h:#4a2225;
+  --rd-tint-green:#14301f; --rd-tint-green-h:#1b3f2a; --rd-tint-blue:#132b46;
+  --rd-tint-sky:#12293c; --rd-tint-emerald:#0f2e24; --rd-tint-orange:#3b2611;
+  --rd-bd-amber:#63491a; --rd-bd-red:#5e2529; --rd-bd-green:#215133; --rd-bd-blue:#1f3d61;
+  --rd-bd-sky:#1d4463; --rd-bd-emerald:#1d4a38;
+  color-scheme:dark;
+}
+
+/* ---- ISLA CLARA: documentos exportables (.mb-doc) ----
+   Deben seguir siendo hoja blanca con tinta oscura: html2canvas copia los
+   colores calculados de la pantalla al PDF. Redefinir las variables basta. */
+html[data-theme="dark"] .mb-doc{
+  --rd-bg:#fff; --rd-surface:#fff; --rd-surface2:#f5f5f4; --rd-surface3:#e7e5e4;
+  --rd-border:#d6d3d1; --rd-border-soft:#e7e5e4; --rd-border-strong:#a8a29e;
+  --rd-text:#111; --rd-text-mid:#333; --rd-text-dim:#555; --rd-text-faint:#777;
+  --rd-btn:#1c1917; --rd-btn2:#292524; --rd-btn-hover:#44403c;
+  --rd-ok:#15803d; --rd-bad:#b91c1c; --rd-warn:#b45309; --rd-warn-2:#92400e;
+  --rd-info:#1d4ed8; --rd-sky:#0369a1; --rd-teal:#0f766e; --rd-emerald:#047857;
+  --rd-orange:#c2410c; --rd-violet:#6d28d9;
+  --rd-tint-amber:#fffbeb; --rd-tint-amber-h:#fef3c7; --rd-tint-red:#fef2f2; --rd-tint-red-h:#fee2e2;
+  --rd-tint-green:#f0fdf4; --rd-tint-green-h:#dcfce7; --rd-tint-blue:#eff6ff;
+  --rd-tint-sky:#e0f2fe; --rd-tint-emerald:#ecfdf5; --rd-tint-orange:#ffedd5;
+  --rd-bd-amber:#fcd34d; --rd-bd-red:#fecaca; --rd-bd-green:#bbf7d0; --rd-bd-blue:#bfdbfe;
+  --rd-bd-sky:#bae6fd; --rd-bd-emerald:#a7f3d0;
+  color-scheme:light;
+}
+
+/* ---- base ---- */
+html[data-theme="dark"] body{background:var(--rd-bg);color:var(--rd-text-mid)}
+html[data-theme="dark"] ::selection{background:#3a5578;color:#fff}
+
+/* Borde por defecto (elementos con .border sin clase de color).
+   Va ANTES de las clases border-* para que esas ganen por orden. */
+html[data-theme="dark"] .border,
+html[data-theme="dark"] .border-t,
+html[data-theme="dark"] .border-b,
+html[data-theme="dark"] .border-l,
+html[data-theme="dark"] .border-2{border-color:var(--rd-border-soft)}
+
+/* ---- barra superior: tono propio + borde, para que no se pierda ---- */
+html[data-theme="dark"] header.bg-stone-900{
+  background-color:var(--rd-header);
+  border-bottom:1px solid var(--rd-border-strong);
+  box-shadow:0 2px 10px rgba(0,0,0,.45);
+}
+html[data-theme="dark"] header.bg-stone-900 nav a:hover,
+html[data-theme="dark"] header.bg-stone-900 button:hover{background-color:#2b3340}
+
+/* ---- superficies ---- */
+html[data-theme="dark"] .bg-white{background-color:var(--rd-surface)}
+html[data-theme="dark"] .bg-slate-50,
+html[data-theme="dark"] .bg-stone-50,
+html[data-theme="dark"] .bg-slate-50\/60,
+html[data-theme="dark"] .bg-stone-50\/60{background-color:var(--rd-bg)}
+html[data-theme="dark"] .bg-slate-100,
+html[data-theme="dark"] .bg-stone-100{background-color:var(--rd-surface2)}
+html[data-theme="dark"] .bg-slate-200,
+html[data-theme="dark"] .bg-stone-200{background-color:var(--rd-surface3)}
+
+/* Botones/menús oscuros sólidos: se levantan para leerse como control,
+   si no quedan del mismo tono que la tarjeta. El header ya se trató arriba. */
+html[data-theme="dark"] .bg-stone-900{background-color:var(--rd-btn)}
+html[data-theme="dark"] .bg-stone-800{background-color:var(--rd-btn2)}
+html[data-theme="dark"] .hover\:bg-stone-800:hover{background-color:var(--rd-btn-hover)}
+html[data-theme="dark"] .hover\:bg-stone-100:hover,
+html[data-theme="dark"] .hover\:bg-stone-50:hover{background-color:var(--rd-surface2)}
+
+/* ---- texto neutro ---- */
+html[data-theme="dark"] .text-slate-900,
+html[data-theme="dark"] .text-stone-900{color:var(--rd-text)}
+html[data-theme="dark"] .text-slate-800,
+html[data-theme="dark"] .text-stone-800{color:var(--rd-text)}
+html[data-theme="dark"] .text-slate-700,
+html[data-theme="dark"] .text-stone-700{color:var(--rd-text-mid)}
+html[data-theme="dark"] .text-slate-600,
+html[data-theme="dark"] .text-stone-600{color:var(--rd-text-mid)}
+html[data-theme="dark"] .text-slate-500,
+html[data-theme="dark"] .text-stone-500{color:var(--rd-text-dim)}
+html[data-theme="dark"] .text-slate-400,
+html[data-theme="dark"] .text-stone-400{color:var(--rd-text-faint)}
+
+/* ---- bordes ---- */
+html[data-theme="dark"] .border-stone-300{border-color:var(--rd-border)}
+html[data-theme="dark"] .border-stone-200,
+html[data-theme="dark"] .border-slate-100{border-color:var(--rd-border-soft)}
+html[data-theme="dark"] .border-stone-500{border-color:var(--rd-border-strong)}
+html[data-theme="dark"] .border-stone-700{border-color:#3a4353}
+html[data-theme="dark"] .divide-slate-100 > *{border-color:var(--rd-border-soft)}
+
+/* ---- avisos y chips pálidos ----
+   Solo se re-tiñen los fondos PÁLIDOS (50/100/200). Los chips sólidos
+   (bg-amber-400, bg-green-500, bg-red-600…) se dejan intactos: ya contrastan
+   sobre oscuro y su texto oscuro debe seguir oscuro. */
+html[data-theme="dark"] .bg-amber-50,
+html[data-theme="dark"] .bg-amber-100,
+html[data-theme="dark"] .bg-amber-50\/40,
+html[data-theme="dark"] .bg-amber-50\/60,
+html[data-theme="dark"] .bg-amber-100\/70{background-color:var(--rd-tint-amber)}
+html[data-theme="dark"] .text-amber-600,html[data-theme="dark"] .text-amber-700{color:var(--rd-warn)}
+html[data-theme="dark"] .text-amber-800,html[data-theme="dark"] .text-amber-900{color:var(--rd-warn-2)}
+html[data-theme="dark"] .border-amber-200,html[data-theme="dark"] .border-amber-300{border-color:var(--rd-bd-amber)}
+html[data-theme="dark"] .hover\:bg-amber-50:hover,
+html[data-theme="dark"] .hover\:bg-amber-100:hover{background-color:var(--rd-tint-amber-h)}
+
+html[data-theme="dark"] .bg-red-50,
+html[data-theme="dark"] .bg-red-100,
+html[data-theme="dark"] .bg-red-50\/70{background-color:var(--rd-tint-red)}
+html[data-theme="dark"] .text-red-500,html[data-theme="dark"] .text-red-600,
+html[data-theme="dark"] .text-red-700,html[data-theme="dark"] .text-red-800,
+html[data-theme="dark"] .text-red-900{color:var(--rd-bad)}
+html[data-theme="dark"] .border-red-200{border-color:var(--rd-bd-red)}
+html[data-theme="dark"] .hover\:bg-red-50:hover{background-color:var(--rd-tint-red-h)}
+html[data-theme="dark"] .ring-red-300{--tw-ring-color:#7f2d33}
+
+html[data-theme="dark"] .bg-green-50,
+html[data-theme="dark"] .bg-green-100,
+html[data-theme="dark"] .bg-green-50\/70{background-color:var(--rd-tint-green)}
+html[data-theme="dark"] .text-green-600,html[data-theme="dark"] .text-green-700,
+html[data-theme="dark"] .text-green-800,html[data-theme="dark"] .text-green-900{color:var(--rd-ok)}
+html[data-theme="dark"] .border-green-200,html[data-theme="dark"] .border-green-300{border-color:var(--rd-bd-green)}
+html[data-theme="dark"] .hover\:bg-green-50:hover{background-color:var(--rd-tint-green-h)}
+
+html[data-theme="dark"] .bg-blue-50,html[data-theme="dark"] .bg-blue-100{background-color:var(--rd-tint-blue)}
+html[data-theme="dark"] .text-blue-600,html[data-theme="dark"] .text-blue-700{color:var(--rd-info)}
+html[data-theme="dark"] .border-blue-200{border-color:var(--rd-bd-blue)}
+
+html[data-theme="dark"] .bg-sky-50,
+html[data-theme="dark"] .bg-sky-100,
+html[data-theme="dark"] .bg-sky-200{background-color:var(--rd-tint-sky)}
+html[data-theme="dark"] .text-sky-700,html[data-theme="dark"] .text-sky-800,
+html[data-theme="dark"] .text-sky-900{color:var(--rd-sky)}
+html[data-theme="dark"] .border-sky-200{border-color:var(--rd-bd-sky)}
+
+html[data-theme="dark"] .bg-emerald-50,html[data-theme="dark"] .bg-emerald-100{background-color:var(--rd-tint-emerald)}
+html[data-theme="dark"] .text-emerald-700{color:var(--rd-emerald)}
+html[data-theme="dark"] .text-teal-700{color:var(--rd-teal)}
+html[data-theme="dark"] .border-emerald-200{border-color:var(--rd-bd-emerald)}
+
+html[data-theme="dark"] .bg-orange-100{background-color:var(--rd-tint-orange)}
+html[data-theme="dark"] .text-orange-700{color:var(--rd-orange)}
+
+/* ---- colores escritos a mano en style="" (no los alcanza ninguna clase).
+   Usan variables, así que dentro de .mb-doc recuperan su tinta original. ---- */
+html[data-theme="dark"] [style*="color:#111"],
+html[data-theme="dark"] [style*="color:#1c1917"],
+html[data-theme="dark"] [style*="color:#292524"],
+html[data-theme="dark"] [style*="color:#0f172a"],
+html[data-theme="dark"] [style*="color:#1e293b"],
+html[data-theme="dark"] [style*="color:#111827"]{color:var(--rd-text) !important}
+html[data-theme="dark"] [style*="color:#333"],
+html[data-theme="dark"] [style*="color:#334155"],
+html[data-theme="dark"] [style*="color:#44403c"],
+html[data-theme="dark"] [style*="color:#475569"],
+html[data-theme="dark"] [style*="color:#57534e"]{color:var(--rd-text-mid) !important}
+html[data-theme="dark"] [style*="color:#555"],
+html[data-theme="dark"] [style*="color:#64748b"],
+html[data-theme="dark"] [style*="color:#78716c"]{color:var(--rd-text-dim) !important}
+html[data-theme="dark"] [style*="color:#94a3b8"],
+html[data-theme="dark"] [style*="color:#a8a29e"]{color:var(--rd-text-faint) !important}
+html[data-theme="dark"] [style*="color:#15803d"],
+html[data-theme="dark"] [style*="color:#166534"],
+html[data-theme="dark"] [style*="color:#065f46"]{color:var(--rd-ok) !important}
+html[data-theme="dark"] [style*="color:#b91c1c"],
+html[data-theme="dark"] [style*="color:#991b1b"],
+html[data-theme="dark"] [style*="color:#7f1d1d"],
+html[data-theme="dark"] [style*="color:#dc2626"]{color:var(--rd-bad) !important}
+html[data-theme="dark"] [style*="color:#b45309"],
+html[data-theme="dark"] [style*="color:#713f12"]{color:var(--rd-warn) !important}
+html[data-theme="dark"] [style*="color:#0f766e"],
+html[data-theme="dark"] [style*="color:#0d9488"]{color:var(--rd-teal) !important}
+html[data-theme="dark"] [style*="color:#1d4ed8"]{color:var(--rd-info) !important}
+html[data-theme="dark"] [style*="color:#7c3aed"]{color:var(--rd-violet) !important}
+
+/* Fondos pálidos escritos a mano en style="" (leyendas de colores, renglón
+   "General" de Proyectos). Sin esto quedaba texto claro sobre fondo casi blanco. */
+html[data-theme="dark"] [style*="background:#fff5f5"]{background-color:var(--rd-tint-red) !important}
+html[data-theme="dark"] [style*="background:#fffbeb"]{background-color:var(--rd-tint-amber) !important}
+html[data-theme="dark"] [style*="background:#f0fdf4"]{background-color:var(--rd-tint-green) !important}
+html[data-theme="dark"] [style*="background:#f4f1ee"]{background-color:var(--rd-surface2) !important}
+
+/* ---- formularios ---- */
+html[data-theme="dark"] input:not([type="checkbox"]):not([type="radio"]),
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea{
+  background-color:var(--rd-surface);color:var(--rd-text);border-color:var(--rd-border);
+}
+html[data-theme="dark"] ::placeholder,
+html[data-theme="dark"] .placeholder\:text-slate-400::placeholder{color:#828a98}
+html[data-theme="dark"] .focus\:border-stone-500:focus{border-color:#6b7482}
+
+/* ================= Widgets a medida =================
+   Las bandas ya oscuras de origen (#1c1917) se dejan tal cual: funcionan igual
+   en claro y en oscuro, y varias viven dentro de documentos exportables. */
+
+/* --- Asistencia --- */
+html[data-theme="dark"] .agrid td.c-nom .nom{color:var(--rd-text)}
+html[data-theme="dark"] .agrid td.c-cat{color:var(--rd-text-dim)}
+html[data-theme="dark"] .agrid.editable td.c-dia:active{background:var(--rd-surface2)}
+html[data-theme="dark"] .agrid tfoot td{background:var(--rd-bg);color:var(--rd-text-dim)}
+html[data-theme="dark"] .asis-table tbody tr:nth-child(2n){background:var(--rd-surface2)}
+html[data-theme="dark"] .asis-table tfoot td{background:var(--rd-surface2)}
+html[data-theme="dark"] .asis-table td.lbl{color:var(--rd-text)}
+html[data-theme="dark"] .asis-table td.plan{color:var(--rd-text-faint)}
+html[data-theme="dark"] .asis-table td.gap{background:var(--rd-tint-red);color:var(--rd-bad)}
+html[data-theme="dark"] .asis-table td.over{background:var(--rd-tint-amber);color:var(--rd-warn)}
+html[data-theme="dark"] .asis-table td.ok{background:var(--rd-tint-green);color:var(--rd-ok)}
+
+/* --- Programa / Gantt en pantalla (dentro de .mb-doc vuelve a blanco solo) --- */
+html[data-theme="dark"] .gantt th.lh,
+html[data-theme="dark"] .gantt tr.fase td,
+html[data-theme="dark"] .gg th.lh{background:var(--rd-surface);color:var(--rd-text)}
+html[data-theme="dark"] .gantt th.wk,
+html[data-theme="dark"] .gg th.wk{color:var(--rd-text-dim)}
+html[data-theme="dark"] .gg .conbtn{color:var(--rd-text)}
+html[data-theme="dark"] .gg .conbtn:hover{background:var(--rd-surface2)}
+html[data-theme="dark"] .gg tr.editrow td{background:var(--rd-surface2)}
+
+/* --- Hoja financiera (.hoja-*) --- */
+html[data-theme="dark"] .hoja-wrap{background:var(--rd-surface);border-color:var(--rd-border)}
+html[data-theme="dark"] tr.zebra-a{background:var(--rd-surface)}
+html[data-theme="dark"] .hoja-num{background:var(--rd-surface2);color:var(--rd-text-faint)}
+html[data-theme="dark"] .cell{background:transparent;color:var(--rd-text)}
+html[data-theme="dark"] .cell:focus{background:var(--rd-surface2)}
+html[data-theme="dark"] .cellro{color:var(--rd-text-mid)}
+html[data-theme="dark"] td.calc{background:var(--rd-bg);color:var(--rd-text-dim)}
+html[data-theme="dark"] td.c-saldo{color:var(--rd-text-mid)}
+html[data-theme="dark"] td.c-saldo.neg{color:var(--rd-bad)}
+html[data-theme="dark"] .hoja-nueva td{background:var(--rd-surface)}
+html[data-theme="dark"] .hoja-nueva .cell::placeholder{color:#6d7583}
+html[data-theme="dark"] .hoja-acc{background:var(--rd-bg)}
+html[data-theme="dark"] .hoja-acc button{color:var(--rd-text-faint)}
+html[data-theme="dark"] .hoja-acc button:hover{color:var(--rd-text);background:var(--rd-surface3)}
+html[data-theme="dark"] table.hoja tfoot td{background:var(--rd-surface2);color:var(--rd-text)}
+html[data-theme="dark"] .hoja-kpi{background:var(--rd-surface);border-color:var(--rd-border)}
+html[data-theme="dark"] .hoja-kpi b{color:var(--rd-text)}
+html[data-theme="dark"] .hoja-sub>td{background:var(--rd-bg)}
+html[data-theme="dark"] .hoja-sub-t th{color:var(--rd-text-faint)}
+/* El encabezado de la hoja va sobre la franja de color del tipo (verde/rojo/…):
+   se queda blanco. Va después porque .hoja-sub-t th es más específica que la
+   regla original de la página y si no le ganaba. */
+html[data-theme="dark"] table.hoja thead th{color:#fff}
+html[data-theme="dark"] .hoja-sub-t td{color:var(--rd-text-mid);border-color:var(--rd-border-soft)}
+html[data-theme="dark"] .hoja-sub-empty{color:var(--rd-text-faint)}
+html[data-theme="dark"] .hoja-sub-form .sf{background:var(--rd-surface);border-color:var(--rd-border);color:var(--rd-text)}
+html[data-theme="dark"] .hoja-toggle a{color:var(--rd-text-dim)}
+html[data-theme="dark"] .hoja-toggle a:hover{background:var(--rd-surface2)}
+
+/* --- Fin · Proyectos (.proy-*) --- */
+html[data-theme="dark"] .proy-wrap{background:var(--rd-surface);border-color:var(--rd-border)}
+html[data-theme="dark"] tr.proy-zebra-a{background:var(--rd-surface)}
+html[data-theme="dark"] .proy-num{background:var(--rd-surface2);color:var(--rd-text-faint)}
+html[data-theme="dark"] .proy-cell{background:transparent;color:var(--rd-text)}
+html[data-theme="dark"] .proy-cell:focus{background:var(--rd-surface2)}
+html[data-theme="dark"] .proy-cellro{color:var(--rd-text-mid)}
+html[data-theme="dark"] td.proy-calc{background:var(--rd-bg);color:var(--rd-text-dim)}
+html[data-theme="dark"] td.proy-calc.proy-saldo{background:var(--rd-tint-amber)}
+html[data-theme="dark"] td.proy-calc.proy-saldo.hot{background:var(--rd-tint-amber-h)}
+html[data-theme="dark"] table.proyh tfoot td.proy-saldo{background:var(--rd-tint-amber)}
+html[data-theme="dark"] .proy-acc{background:var(--rd-bg)}
+html[data-theme="dark"] .proy-acc a,html[data-theme="dark"] .proy-acc button{color:var(--rd-text-dim)}
+html[data-theme="dark"] table.proyh tfoot td{background:var(--rd-surface2);color:var(--rd-text)}
+html[data-theme="dark"] .proy-toggle a{color:var(--rd-text-dim)}
+html[data-theme="dark"] .proy-toggle a:hover{background:var(--rd-surface2)}
+html[data-theme="dark"] .proy-nueva .proy-cell::placeholder{color:#6d7583}
+
+/* --- Fin · Resumen de obra (.ro-*, table.roh) --- */
+html[data-theme="dark"] .ro-wrap{background:var(--rd-surface);border-color:var(--rd-border)}
+html[data-theme="dark"] td.ro-lbl{background:var(--rd-surface);color:var(--rd-text-mid)}
+html[data-theme="dark"] table.roh tr:nth-child(even) td.ro-lbl{background:var(--rd-surface2)}
+html[data-theme="dark"] table.roh input{color:var(--rd-text)}
+html[data-theme="dark"] table.roh input.txt{color:var(--rd-text-dim)}
+html[data-theme="dark"] table.roh input:focus{background:#33240f;outline-color:#d97706}
+html[data-theme="dark"] table.roh input.saved{background:#14532d}
+html[data-theme="dark"] table.roh input.err{background:#4c1d24}
+html[data-theme="dark"] td.ro-calc{background:var(--rd-bg);color:var(--rd-text-mid)}
+html[data-theme="dark"] td.ro-calc.neg{color:var(--rd-bad)}
+html[data-theme="dark"] td.ro-real-c{background:var(--rd-tint-emerald);color:var(--rd-emerald)}
+html[data-theme="dark"] td.ro-real-c.neg{color:var(--rd-bad)}
+html[data-theme="dark"] table.roh tr:nth-child(even) td{background:var(--rd-surface2)}
+html[data-theme="dark"] tr.ro-sub td{background:var(--rd-bg);color:var(--rd-text)}
+html[data-theme="dark"] tr.ro-sub td.lft{color:var(--rd-text-dim)}
+html[data-theme="dark"] table.roh tfoot td{background:var(--rd-surface3);color:var(--rd-text)}
+html[data-theme="dark"] table.roh tfoot td.lft{color:var(--rd-text-dim)}
+html[data-theme="dark"] .ro-del{color:var(--rd-bad)}
+/* Celdas automáticas (Admin / HMTA / Impuestos): etiqueta auto/man. + sobrescritura */
+html[data-theme="dark"] table.roh td.ro-auto{background:var(--rd-bg)}
+html[data-theme="dark"] table.roh tr:nth-child(even) td.ro-auto{background:var(--rd-surface2)}
+html[data-theme="dark"] .ro-cell input::placeholder{color:var(--rd-text-dim)}
+html[data-theme="dark"] .ro-tag{background:var(--rd-surface3);color:var(--rd-text-dim)}
+html[data-theme="dark"] .ro-tag.man{background:#7c2d12;color:#fed7aa}
+html[data-theme="dark"] .ro-tag.man:hover{background:#9a3412}
+
+/* --- Fin · Saldos (.sal-*, table.salh) --- */
+html[data-theme="dark"] .sal-wrap{background:var(--rd-surface);border-color:var(--rd-border)}
+html[data-theme="dark"] td.sal-cta{color:var(--rd-text)}
+html[data-theme="dark"] td.sal-cta .sub{color:var(--rd-text-faint)}
+html[data-theme="dark"] td.sal-num{color:var(--rd-text-mid)}
+html[data-theme="dark"] td.sal-num.z{color:#6b7480}
+html[data-theme="dark"] td.sal-in{color:var(--rd-ok)}
+html[data-theme="dark"] td.sal-out{color:var(--rd-bad)}
+html[data-theme="dark"] td.sal-saldo{color:var(--rd-teal)}
+html[data-theme="dark"] td.sal-ini{background:var(--rd-bg)}
+html[data-theme="dark"] tr.sal-zebra:nth-child(even){background:var(--rd-surface2)}
+html[data-theme="dark"] table.salh tfoot td{background:var(--rd-surface2);color:var(--rd-text)}
+html[data-theme="dark"] table.salh tfoot td.lft{color:var(--rd-text-dim)}
+html[data-theme="dark"] .sal-distbar{background:var(--rd-surface3)}
+html[data-theme="dark"] .sal-distpct{color:var(--rd-text-faint)}
+
+/* --- Fin · Declaraciones (.decl-*) --- */
+html[data-theme="dark"] .decl-card{background:var(--rd-surface);border-color:var(--rd-border-soft)}
+html[data-theme="dark"] .decl-th{color:var(--rd-text-dim);border-color:var(--rd-border-soft)}
+html[data-theme="dark"] .decl-sheet thead .decl-th{background:var(--rd-bg);border-color:var(--rd-border)}
+html[data-theme="dark"] .decl-sheet tfoot td,
+html[data-theme="dark"] .decl-sheet tbody tr:nth-child(even) td{background:var(--rd-surface2)}
+html[data-theme="dark"] #declLimpiar{background:var(--rd-surface);border-color:var(--rd-border);color:var(--rd-text-mid)}
+/* Bloque ámbar del resumen: en claro es papel amarillo con tinta café. */
+html[data-theme="dark"] #declResumen .decl-th{background:var(--rd-tint-amber);color:var(--rd-warn-2);border-bottom-color:var(--rd-bd-amber)}
+/* Importe y "Total impuesto" (col 6) van resaltados como en la hoja amarilla;
+   toda la fila de totales también. Sin esto el texto claro queda sobre el
+   amarillo pálido del tema claro y no se lee. */
+html[data-theme="dark"] #declResumenRows td:nth-child(2),
+html[data-theme="dark"] #declResumenRows td:nth-child(6),
+html[data-theme="dark"] #declResumen tfoot td{background:var(--rd-tint-amber);color:var(--rd-text)}
+html[data-theme="dark"] #declResumenRows tr{border-bottom-color:var(--rd-border-soft)}
+
+/* --- Menú lateral de Finanzas: cada módulo trae su color de marca en style="".
+   En claro van sobre blanco; sobre oscuro quedaban apagados. Se aclaran con
+   filtro (sirve para cualquier color, incluso los que se agreguen después).
+   El módulo activo (fondo sólido + texto blanco) se excluye. --- */
+html[data-theme="dark"] [style*="border-left:4px solid #"]:not([style*="color:#fff"]){
+  filter:brightness(1.65) saturate(1.05);
+}
+
+/* Maquinaria e Inventario viven dentro de .mb-doc (hoja exportable): no se
+   tocan, la isla clara ya los deja idénticos al PDF de siempre. */
+
+/* --- Anotar plano: barra de herramientas --- */
+html[data-theme="dark"] .anot-btn{background:var(--rd-surface);color:var(--rd-text-mid);border-color:var(--rd-border)}
+html[data-theme="dark"] .anot-btn:hover{background:var(--rd-surface2)}
+
+/* --- Modal de confirmación (trae estilos en línea: requiere !important) --- */
+html[data-theme="dark"] #app-confirm-card{background:var(--rd-surface) !important}
+html[data-theme="dark"] #app-confirm-title{color:var(--rd-text) !important}
+html[data-theme="dark"] #app-confirm-msg{color:var(--rd-text-mid) !important}
+html[data-theme="dark"] #app-confirm-cancel{background:var(--rd-surface2) !important;border-color:var(--rd-border) !important;color:var(--rd-text-mid) !important}
+
+}

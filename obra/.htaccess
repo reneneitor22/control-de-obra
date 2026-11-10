@@ -1,0 +1,31 @@
+# ===== Cabeceras de seguridad (aplican a todo /obra/) =====
+<IfModule mod_headers.c>
+  # El navegador no adivina el tipo de archivo (evita que un .txt se ejecute como JS).
+  Header always set X-Content-Type-Options "nosniff"
+  # Nadie puede meter el sitio en un <iframe> ajeno (anti-clickjacking).
+  Header always set X-Frame-Options "SAMEORIGIN"
+  # No filtrar la URL completa a sitios externos.
+  Header always set Referrer-Policy "same-origin"
+</IfModule>
+
+# ===== Bloquear acceso web a archivos sensibles del proyecto =====
+<FilesMatch "^(config\.php|config\.local\.php.*|schema\.sql|.*\.sqlite.*|composer\.(json|lock)|package(-lock)?\.json)$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
+
+RewriteEngine On
+RewriteBase /obra/
+# Raíz -> dashboard dentro de public/
+RewriteRule ^$ public/ [L]
+# No volver a prefijar lo que ya va a public/ (evita loop de redirects)
+RewriteCond %{REQUEST_URI} !^/obra/public/
+# Archivos/carpetas reales se sirven directo
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ public/$1 [L]

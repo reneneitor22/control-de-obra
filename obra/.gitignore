@@ -1,0 +1,8 @@
+.DS_Store
+/.bin/
+/config.local.php
+/config.local.php.prod
+/data/*
+!/data/.htaccess
+/node_modules/
+node_modules/

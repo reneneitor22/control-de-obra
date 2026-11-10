@@ -1,0 +1,9 @@
+.DS_Store
+node_modules/
+**/config.local.php
+**/config.local.php.prod
+**/data/*
+!**/data/.htaccess
+*.sqlite
+*.log
+PROMPT-FABLE.md

@@ -1,0 +1,10 @@
+# Bloquea acceso web directo a esta carpeta: base de datos SQLite, respaldos,
+# planos subidos y archivos de throttle. Solo el código PHP (fuera de aquí) los
+# lee; nunca deben servirse por URL. Compatible con Apache 2.2 y 2.4.
+<IfModule mod_authz_core.c>
+  Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+  Order allow,deny
+  Deny from all
+</IfModule>
